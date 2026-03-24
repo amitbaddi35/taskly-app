@@ -1045,20 +1045,34 @@ function renderStats() {
 function renderTasks() {
   renderStats();
   const container = document.getElementById("tasks-list");
-  const empty     = document.getElementById("empty-state");
+let empty = document.getElementById("empty-state");
 
-  if (State.tasks.length === 0) {
-    container.innerHTML = "";
+// ✅ DETACH empty-state BEFORE clearing
+if (empty && empty.parentNode === container) {
+  container.removeChild(empty);
+}
+
+if (State.tasks.length === 0) {
+  container.innerHTML = "";
+
+  // ✅ RE-APPEND safely
+  if (empty) {
     container.appendChild(empty);
     empty.style.display = "block";
-    return;
   }
-  empty.style.display = "none";
+  return;
+}
 
-  container.innerHTML = "";
-  State.tasks.forEach(task => {
-    container.appendChild(buildTaskCard(task));
-  });
+// hide empty state safely
+if (empty) empty.style.display = "none";
+
+// clear container
+container.innerHTML = "";
+
+// render tasks
+State.tasks.forEach(task => {
+  container.appendChild(buildTaskCard(task));
+});
 }
 
 function buildTaskCard(task) {
