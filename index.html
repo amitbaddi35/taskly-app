@@ -1470,6 +1470,7 @@ async function doLogin() {
 if (!username.includes("@")) {
   toast("Enter a valid email", "error");
   return;
+ }
 
   localStorage.setItem("tf_username", username);
   State.username   = username;
