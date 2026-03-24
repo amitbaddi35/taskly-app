@@ -766,7 +766,7 @@
     <div class="login-logo">TaskFlow</div>
     <p class="login-sub">Your personal task management system</p>
     <label class="login-label" for="login-username">Username</label>
-    <input id="login-username" class="login-input" type="text" placeholder="e.g. john_doe" autocomplete="off" />
+<input id="login-username" class="login-input" type="email" placeholder="e.g. yourname@somemail.com" autocomplete="off" />
     <button class="login-btn" id="login-btn">Start →</button>
   </div>
 </div>
@@ -900,6 +900,7 @@ let State = {
   tasks: [],
   isSuperUser: false,
 };
+
 
 /* ═══════════════════════════════════════════════════════════
    HELPERS — LOADING & TOAST
@@ -1461,7 +1462,14 @@ function switchTab(name) {
 async function doLogin() {
   const input = document.getElementById("login-username");
   const username = input.value.trim();
-  if (!username) { toast("Enter a username", "error"); return; }
+  if (!username) {
+  toast("Enter your email", "error");
+  return;
+}
+
+if (!username.includes("@")) {
+  toast("Enter a valid email", "error");
+  return;
 
   localStorage.setItem("tf_username", username);
   State.username   = username;
